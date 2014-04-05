@@ -1,39 +1,19 @@
 
 
-function carregaDados () {
+function carregaDados (numeroLinha) {
     'use strict';
-	/* var flickerAPI = "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?";
-		$.getJSON( flickerAPI, {
-		tags: "mount rainier",
-		tagmode: "any",
-		format: "json"})
-		.done( function ( data ){
-			console.log(data);
-		});*/
-	var gpsOnibus = "http://dadosabertos.rio.rj.gov.br/apiTransporte/apresentacao/rest/index.cfm/obterTodasPosicoes";
-
-	$.ajax({
-        type : 'GET',
-		url: gpsOnibus,
-		contentType : 'json',	
-		complete : function ( data ) {
-			console.log($.parseJSON(data));
-		},
-		success : function (data){
-			console.log(data);
-		},
-		error : function ( e ){
-			console.log( e.message );
-		}
-		
-    });
-	
-   /* var gpsOnibus = "http://dadosabertos.rio.rj.gov.br/apiTransporte/apresentacao/rest/index.cfm/obterTodasPosicoes";
-    console.log(gpsOnibus);
-    $.getJSON( gpsOnibus, {})
-	.done( function( data ){
-		console.log( jQuery.parseJSON( data) );
-	});*/
+	console.log(numeroLinha);
+    var gpsOnibus = 'http://riob.us/proxy.php';
+    
+    $.getJSON(gpsOnibus, 
+              {
+				  linha : numeroLinha
+              },
+             function ( data ){
+             	$.each( data.COLUMNS, function( i, d ){
+					alert( d );
+				});
+             });
     
     /*.done( function ( data ) {
         $.each( data.DATA, function( dataRow ) {

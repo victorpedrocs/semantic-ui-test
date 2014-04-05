@@ -17,9 +17,15 @@
             <a class="item">Linhas de Onibus</a>
             <a class="item">Contato</a>
         </div>
-        <div class="ui button" id="carregar_dados" onclick="carregaDados();">Carregar Dados</div>
-        
-        <div class="ui table" id="tabela">
-
+             
+		<div class="ui input">
+			<input type="text" placeholder="Número da Linha" id="numero_linha">
+		</div>
+		
+		<div class="ui button" id="carregar_dados" onclick="carregaDados($('#numero_linha').val());">Carregar Dados</div>
+ 
     </body>
+	<script type="text/javascript">
+	
+	</script>
 </html>
