@@ -1,42 +1,63 @@
-
-
+/*	
+	0 : DATAHORA
+	1 : ORDEM
+	2 : LINHA
+	3 : LATITUDE
+	4 : LONGITUDE
+	5 : VELOCIDADE
+*/
+$( function(){
+//	key listener no input
+	$('#numero_linha').keypress( function( event ){
+		if(event.which == 13){
+			carregaDados($('#numero_linha').val());	
+		}
+	});
+	$('#mensagem').hide();
+});
 function carregaDados (numeroLinha) {
     'use strict';
+	
 	console.log(numeroLinha);
     var gpsOnibus = 'http://riob.us/proxy.php';
-    
-    $.getJSON(gpsOnibus, 
-              {
-				  linha : numeroLinha
-              },
-             function ( data ){
-             	$.each( data.COLUMNS, function( i, d ){
-					alert( d );
+	var dataType = 'json';
+//	var gpsOnibus = 'http://dadosabertos.rio.rj.gov.br/apiTransporte/apresentacao/rest/index.cfm/obterTodasPosicoes';
+//	var dataType = "";
+    var vetorOnibus = [];
+	$.ajax({
+		url : gpsOnibus,
+		data : { linha : numeroLinha },
+		async : false,
+		dataType : dataType,
+		success : function ( data ){
+             	$.each( data.DATA, function( id , row ){
+					var onibus = {
+						dataHora : row[0],
+						ordem : row[1],
+						linha : row[2],
+						latitude : row[3],
+						longitude : row[4],
+						velocidade : row[5]						
+					};
+					vetorOnibus.push(onibus);
 				});
-             });
-    
-    /*.done( function ( data ) {
-        $.each( data.DATA, function( dataRow ) {
-            
-            0 : DATAHORA
-            1 : ORDEM
-            2 : LINHA
-            3 : LATITUDE
-            4 : LONGITUDE
-            5 : VELOCIDADE
-            
-            var dataHora, ordem, linha, latitude, longitude, velocidade;
-            dataHora = "<td>" + dataRow[0] + "</td>";
-            ordem = "<td>"+dataRow[1]+"</td>";
-            linha = "<td>"+dataRow[2]+"</td>";
-            latitude = "<td>"+dataRow[3]+"</td>";
-            longitude = "<td>"+dataRow[4]+"</td>";
-            velocidade = "<td>"+dataRow[5]+"</td>";
-            alert(linha);
-            items.push("<tr>"+dataHora+ordem+linha+latitude+longitude+velocidade+"</tr>");
-            
-        });
-        $("#tabela").append(items.join(""));
-    });*/
+			$('#mensagem').show();
+			$('.ui.message').removeClass('error');
+			$('.ui.message').addClass('success');
+			$('#mensagem_cabecalho').text('JSON carregado com sucesso');
+			$('#mensagem_corpo').text(data.DATA);
+		},
+		error : function ( e ) {
+			$('#mensagem').show();
+			$('.ui.message').removeClass('success');
+			$('.ui.message').addClass('error');
+			$('#mensagem_cabecalho').text('Erro');
+			$('#mensagem_corpo').text(e.message);
+		}
+	});
+	
+	vetorOnibus.forEach(function( row ){
+		console.log( row );
+	});
         
 }

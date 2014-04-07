@@ -7,6 +7,7 @@
         <!-- Importing libraries -->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" type="text/javascript"></script>
         <link rel="stylesheet" href="_lib/packaged/css/semantic.min.css" type="text/css"/>
+		<link rel="stylesheet" href="_style/style.css" type="text/css"/>
 		<script src="_lib/packaged/javascript/semantic.min.js" type="text/javascript"></script>
         <script src="_js/index.js" type="text/javascript"></script>
     </head>
@@ -23,7 +24,11 @@
 		</div>
 		
 		<div class="ui button" id="carregar_dados" onclick="carregaDados($('#numero_linha').val());">Carregar Dados</div>
- 
+		
+		<div class="ui message" id="mensagem">
+			<div class="header" id="mensagem_cabecalho"></div>
+			<div id="mensagem_corpo"></div>
+		</div>
     </body>
 	<script type="text/javascript">
 	
