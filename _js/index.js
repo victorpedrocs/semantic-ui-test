@@ -8,6 +8,11 @@
 */
 'use strict';
 var markers = [];
+//  var gpsOnibus = 'http://riob.us/proxy.php';
+//	var gpsOnibus = 'http://dadosabertos.rio.rj.gov.br/apiTransporte/apresentacao/rest/index.cfm/obterTodasPosicoes';
+var gpsOnibus = 'http://dadosabertos.rio.rj.gov.br/apiTransporte/apresentacao/rest/index.cfm/obterPosicoesDaLinha/';
+var dataType = "json";
+var vetorOnibus = [];
 
 $( function(){
 //	key listener no input
@@ -23,6 +28,17 @@ $( function(){
 // carrega um ponto no mapa
 function inserePontoMapa(onibus){
 	var latLang = new google.maps.LatLng(onibus.latitude, onibus.longitude);
+	var infoString =
+		'<div id="content">'
+    	+'<div id="siteNotice">'
+		+'<div>'
+		+'<h1 id="firstHeading" class="firstHeading">'+onibus.identificacao+'</h1>'
+		+'<div id="bodyContent">'
+		+'Valocidade : '+onibus.velocidade+' Km/h'
+		+'<br>Linha : '+onibus.linha
+		+'</div>'
+		+'</div>'
+		+'</div>'
 
 	var image = {
 		url : '../_image/bus_pinpoint_icon_mini.png',
@@ -37,10 +53,18 @@ function inserePontoMapa(onibus){
 			+' / Velocidade: '+onibus.velocidade+' Km/h'
 	});
 
+	var info = new google.maps.InfoWindow({
+		content : infoString
+	});
+
+	google.maps.event.addListener(marker, 'click', function(){
+		info.open(map, marker);
+	})
+
 	markers.push(marker);
 }
 
-function clearMarkers(){
+function clearAllMarkers(){
 	$.each(markers, function(id, marker){
 		marker.setMap(null);
 	});
@@ -49,23 +73,15 @@ function clearMarkers(){
 }
 
 function carregaDados (numeroLinha) {
-    'use strict';
 	
 	console.log('Número da linha: '+numeroLinha);
 
-//  var gpsOnibus = 'http://riob.us/proxy.php';
-//	var gpsOnibus = 'http://dadosabertos.rio.rj.gov.br/apiTransporte/apresentacao/rest/index.cfm/obterTodasPosicoes';
-	var gpsOnibus = 'http://dadosabertos.rio.rj.gov.br/apiTransporte/apresentacao/rest/index.cfm/obterPosicoesDaLinha/'+numeroLinha;
-	var dataType = "json";
-    var vetorOnibus = [];
-
 	if(markers.length != 0){
-		clearMarkers();
+		clearAllMarkers();
 	}
 
 	$.ajax({
-		url : gpsOnibus,
-//		data : { linha : numeroLinha },
+		url : gpsOnibus+numeroLinha,
 		dataType : dataType,
 		success : function ( data ){
              	$.each( data.DATA, function( id , row ){
@@ -81,7 +97,6 @@ function carregaDados (numeroLinha) {
 					inserePontoMapa(onibus);
 					vetorOnibus.push(onibus);
 				});
-			console.log(vetorOnibus);
 		},
 		error : function ( e ) {
 			$('#mensagem').show();
