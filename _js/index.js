@@ -16,6 +16,7 @@ var vetorOnibus = [];
 
 $( function(){
 //	key listener no input
+
 	$('#numero_linha').keypress( function( event ){
 		if(event.which === 13){
 			carregaDados($('#numero_linha').val());	
@@ -25,11 +26,16 @@ $( function(){
 
 });
 
+function sidebarAction(){
+	$('.ui.sidebar').sidebar('toggle');
+};
+
 // carrega um ponto no mapa
 function inserePontoMapa(onibus){
 	var latLang = new google.maps.LatLng(onibus.latitude, onibus.longitude);
 	var infoString =
-		'<div id="content">'
+		'<div>'
+		+'<div id="content">'
     	+'<div id="siteNotice">'
 		+'<div>'
 		+'<h1 id="firstHeading" class="firstHeading">'+onibus.identificacao+'</h1>'
@@ -39,9 +45,10 @@ function inserePontoMapa(onibus){
 		+'</div>'
 		+'</div>'
 		+'</div>'
+		+'</div>'
 
 	var image = {
-		url : '../_image/bus_pinpoint_icon_mini.png',
+		url : '_image/bus_pinpoint_icon_mini.png',
 		size : new google.maps.Size(20,32)
 	};
 

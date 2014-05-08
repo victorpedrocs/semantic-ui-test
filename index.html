@@ -37,12 +37,32 @@
         </script>
     </head>
     <body>
-        
+		<div class="ui launch right attached button black" style="width : 50px;" onclick="sidebarAction();">
+			<i class="icon list"></i>
+		</div>
+
+        <div class="ui vertical sidebar menu" >
+			<a class="item">
+				<i class="home icon"></i>
+				Home
+			</a>
+			<a class="item">
+				Linhas de Onibus
+			</a>
+			<a class="item">
+				<i class="facebook icon"></i>
+				Curtir
+			</a>
+		</div>
+
+<!--
+
         <div class="ui poiting menu ">
             <a class="active red item">Home</a>
             <a class="item">Linhas de Onibus</a>
             <a class="item">Contato</a>
         </div>
+-->
              
 		<div class="ui input" id="entrada">
 			<input type="text" placeholder="Linha" id="numero_linha">
@@ -52,7 +72,7 @@
 			<div id="mensagem_corpo"></div>
 		</div>
 
-		<div id="map_canvas" style="width: 100%; height: 80%"></div>
+		<div id="map_canvas"></div>
 
     </body>
     
